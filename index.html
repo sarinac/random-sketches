@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+
+    <!-- Title -->
+	<title>Random Sketches</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <meta name="author" content="Sarina Chen | IfColorful">
+    <meta name="title" content="Random Sketches">
+    <meta name="description" content="Creating visualization with random data.">
+    <meta property="og:image" content="img/favicon.png">
+
+    <!-- CSS -->
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+    
+    <!-- Plugins -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Custom -->
+	<script type= "module" src="js/main.js"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-YQC37FT3TK"></script>
+	<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YQC37FT3TK');
+	</script>
+</head>
+<body>
+    <div class="container">
+
+        <div id="navigation">
+            <a href="https://ifcolorful.com" class="navigation-logo">
+                <img class="navigation-logo" src="img/favicon.png" alt="ifcolorful.com">
+            </a>
+            <text id="navigation-title">Random Sketches</text>
+        </div>
+
+        <div id="sketch-description-container">
+            <div id="sketch-title-container">
+                <div id="sketch-title-text">
+                    This is my sketch title
+                </div>
+            </div>
+            <div id="sketch-date-container">
+                <div id="sketch-date-text">
+                    This is my date
+                </div>
+            </div>
+        </div>
+
+        <div id="canvas-container">
+            
+        </div>
+        <div id="svg-container">
+            <svg id="colors"></svg>
+        </div>
+        
+    </div>
+</body>
+</html>
