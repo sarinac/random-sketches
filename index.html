@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 
     <!-- Title -->
-	<title>Random Sketches</title>
+	<title>Random Sketches | Sarina Chen</title>
     <link rel="shortcut icon" href="img/favicon.png">
     <meta name="author" content="Sarina Chen | IfColorful">
     <meta name="title" content="Random Sketches">
@@ -40,6 +40,10 @@
             <text id="navigation-title">Random Sketches</text>
         </div>
 
+        <div class="slidecontainer">
+            <input type="range" min="1" max="2" value="2" class="slider" id="range">
+        </div>
+
         <div id="sketch-description-container">
             <div id="sketch-title-container">
                 <div id="sketch-title-text">
@@ -52,13 +56,17 @@
                 </div>
             </div>
         </div>
-
-        <div id="canvas-container">
+        
+        <div id="visualization-container">
+            <div id="canvas-container">
             
+            </div>
+            <div id="svg-container">
+                <svg id="colors"></svg>
+            </div>
         </div>
-        <div id="svg-container">
-            <svg id="colors"></svg>
-        </div>
+        
+        <div id="inspiration-container"></div>
         
     </div>
 </body>

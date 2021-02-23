@@ -3,6 +3,13 @@ const sketch_01 = {
 
     date: "February 18, 2021",
 
+    inspiration: [
+        "<h1>Inspiration</h1>",
+        "<p>This is my first experiment in drawing with <a href='https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API'>Canvas</a> instead of SVG. Design came from my <a href='https://chinesenewyear.ifcolorful.com'>Chinese New Year Greetings</a> visualization.</p>",
+        "<h1>What's Random?</h1>",
+        "Lantern shape, height, has fuzz, has tassel, tassel color, and tassel length."
+    ],
+
     colors: {
         gold: "#F1BF77",
         red: "#EF1635",
