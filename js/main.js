@@ -1,9 +1,11 @@
 import sketch_01 from "./sketch_01.js";
 import sketch_02 from "./sketch_02.js";
+import sketch_03 from "./sketch_03.js";
 
 const SKETCHES = {
     1: sketch_01,
     2: sketch_02,
+    3: sketch_03,
 };
 const svg = d3.select("#colors");
 svg.attr("viewBox", `0 0 ${svg.node().getBoundingClientRect().width} 10`).attr(
@@ -63,6 +65,6 @@ document.getElementById("range").oninput = function() {
 
 $(document).ready(() => {
     // Start with Day 1
-    draw("canvas-container", 2);
+    draw("canvas-container", 3);
     window.addEventListener("resize", resize);
 });
