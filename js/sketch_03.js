@@ -114,8 +114,10 @@ const sketch_03 = {
                 let newCircle = {
                     centerX:
                         -2 * RADIUS + (i / NUM_CIRCLES) * (width + 6 * RADIUS),
-                    centerY: height / 2,
-                    radius: RADIUS - Math.random() * RADIUS_BUFFER,
+                    centerY:
+                        height / 2 + 2 * (Math.random() - 0.5) * RADIUS_BUFFER,
+                    radius: RADIUS - Math.random() * RADIUS_BUFFER, // uniform radius
+                    // radius: 2 * RADIUS * (i / NUM_CIRCLES), // funnel effect
                     phase: (i / NUM_CIRCLES) * TWIST_AMOUNT,
                     pointArray: setLinePoints(),
                 };
@@ -146,6 +148,7 @@ const sketch_03 = {
 
         /**
          * Generates array for RGBA colors based on a randomized y value
+         * @param {object} colors
          * @returns {Array} length: ITERATIONS
          */
         function setColorList(colors) {
@@ -174,6 +177,11 @@ const sketch_03 = {
             X_SQUEEZE = 0.75, // Condenses x-axis to make it look 3D
             STEPS_PER_SEGMENT = Math.floor(800 / NUM_CIRCLES);
 
+        /**
+         * Draws fractal given position and color inputs
+         * @param {Array} circles
+         * @param {Array} colorArray
+         */
         function onTimer(circles, colorArray) {
             for (let k = 0; k < DRAWS_PER_FRAME; k++) {
                 // Set up stroke features
