@@ -1,4 +1,3 @@
-// import rough from "./rough.js";
 const sketch_04 = {
     title: "Polygons",
 
@@ -15,9 +14,9 @@ const sketch_04 = {
 
     inspiration: [
         "<h1>Inspiration</h1>",
-        "<p>I wanted to draw something playful with <a href='https://roughjs.com/'>Rough.js</a> which has a crayon type of feel</p>",
+        "<p>I wanted to draw something playful with <a href='https://roughjs.com/'>Rough.js</a> which has a crayon type of feel.</p>",
         "<h1>What's Random?</h1>",
-        "<p>Number of sides per shape, position, color, texture.</p>",
+        "<p>Shape, position, color, texture.</p>",
     ],
 
     draw: function (canvasId) {
@@ -48,30 +47,26 @@ const sketch_04 = {
         // --------------- Draw Functions --------------- //
 
         const MAX_NUMBER_OF_SIDES = 6,
-            FILL_STYLES = [
-                "hachure",
-                "solid",
-                "zigzag",
-                "dots",
-                "cross-hatch",
-            ],
-            COLORS = Object.values(this.colors),
-            MAX_WEIGHT = 3;
+            FILL_STYLES = ["hachure", "solid", "cross-hatch"],
+            MAX_WEIGHT = 3,
+            MIN_RADIUS = 15,
+            MAX_RADIUS = 25,
+            COLORS = Object.values(this.colors);
         COLORS.pop(); // Remove black
         COLORS.shift(); // Remove white
 
         class Polygon {
             constructor() {
                 // Shape
-                this.radius = 20;
-                this.numberOfSides = Math.round(
-                    MAX_NUMBER_OF_SIDES * Math.random()
-                );
+                this.radius =
+                    MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * Math.random();
+                this.numberOfSides =
+                    2 + Math.round((MAX_NUMBER_OF_SIDES - 2) * Math.random());
                 this.path = this.createPolygonPath();
                 // Colors
                 this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-                this.fillStyle = "dots";
-                    // FILL_STYLES[Math.floor(Math.random() * FILL_STYLES.length)];
+                this.fillStyle =
+                    FILL_STYLES[Math.floor(Math.random() * FILL_STYLES.length)];
                 this.fillWeight = Math.round(Math.random() * MAX_WEIGHT);
                 // Position
                 this.x =
@@ -117,13 +112,13 @@ const sketch_04 = {
                 if (this.numberOfSides < 3) {
                     rc.circle(0, 0, this.radius, {
                         fill: this.color,
-                        fillStyle: this.fill,
+                        fillStyle: this.fillStyle,
                         fillWeight: this.fillWeight,
                     });
                 } else {
                     rc.path(this.path, {
                         fill: this.color,
-                        fillStyle: this.fill,
+                        fillStyle: this.fillStyle,
                         fillWeight: this.fillWeight,
                     });
                 }

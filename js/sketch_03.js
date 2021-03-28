@@ -128,7 +128,7 @@ const sketch_03 = {
 
         // --------------- Color Functions --------------- //
 
-        const ALPHA = 0.15;
+        const ALPHA = 0.2;
 
         /**
          * Converts hex code to RGB object
@@ -265,7 +265,7 @@ const sketch_03 = {
         // --------------- Draw --------------- //
         let timer;
         let circles = setCircles();
-        console.log(circles);
+        // console.log(circles);
         let colorArray = setColorList(this.colors);
         let lineNumber = 0;
         const FPS = 1000 / 360; // 360 fps

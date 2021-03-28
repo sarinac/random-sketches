@@ -9,6 +9,22 @@ const SKETCHES = {
     3: sketch_03,
     4: sketch_04,
 };
+const NUMBER_SKETCHES = Object.keys(SKETCHES).length;
+
+// Create selection / button group
+const selection = document.getElementById("selection");
+for (let i = 1; i <= NUMBER_SKETCHES; i++) {
+    let button = document.createElement("button");
+    button.innerHTML = i;
+    button.setAttribute("id", `button-${i}`);
+    button.style.cssText = `width: ${80 / NUMBER_SKETCHES}%;`;
+    button.onclick = () => {
+        draw("canvas-container", i);
+    };
+    selection.appendChild(button);
+}
+
+// Create SVG for colors
 const svg = d3.select("#colors");
 svg.attr("viewBox", `0 0 ${svg.node().getBoundingClientRect().width} 10`).attr(
     "preserveAspectRatio",
@@ -16,13 +32,19 @@ svg.attr("viewBox", `0 0 ${svg.node().getBoundingClientRect().width} 10`).attr(
 );
 
 const resize = () => {
-    d3.select("div#visualization-container")
-        .style("height", `${d3.select("canvas").node().getBoundingClientRect().height}px`);
-}
+    d3.select("div#visualization-container").style(
+        "height",
+        `${d3.select("canvas").node().getBoundingClientRect().height}px`
+    );
+};
 
-const draw = (canvasId, day) => {
+const draw = (canvasId, number) => {
     // Get Sketch
-    let sketch = SKETCHES[day];
+    let sketch = SKETCHES[number];
+
+    // Select
+    d3.selectAll("button").classed("selected", false);
+    d3.select(`#button-${number}`).classed("selected", true);
 
     // Set title and date
     $("#sketch-title-text").html(sketch.title);
@@ -56,17 +78,13 @@ const draw = (canvasId, day) => {
     resize();
 
     // Add Description
-    document.getElementById("inspiration-container").innerHTML = sketch.inspiration.join("");
-
+    document.getElementById(
+        "inspiration-container"
+    ).innerHTML = sketch.inspiration.join("");
 };
 
-// Update the current slider value (each time you drag the slider handle)
-document.getElementById("range").oninput = function() {
-    draw("canvas-container", this.value);
-}
-
 $(document).ready(() => {
-    // Start with Day 1
-    draw("canvas-container", 4);
+    // Start with the latest
+    draw("canvas-container", NUMBER_SKETCHES);
     window.addEventListener("resize", resize);
 });
