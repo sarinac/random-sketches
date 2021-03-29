@@ -268,14 +268,14 @@ const sketch_03 = {
         // console.log(circles);
         let colorArray = setColorList(this.colors);
         let lineNumber = 0;
-        const FPS = 1000 / 360; // 360 fps
+        const FPS = 1000 / 120; // 120 fps
         // Restart timer
         if (timer) {
             clearInterval(timer);
         }
         timer = setInterval(function () {
             onTimer(circles, colorArray);
-        }, 1000 / 60);
+        }, FPS);
     },
 };
 
