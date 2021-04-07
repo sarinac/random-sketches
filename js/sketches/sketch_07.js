@@ -8,7 +8,6 @@ const sketch_07 = {
         gold: "#E8A025",
         tint: "#C2B361",
         pale: "#F9F5CA",
-        red: "#A82A2A",
     },
 
     inspiration: [
@@ -621,10 +620,10 @@ const sketch_07 = {
         setInterval(function () {
             if (tick % 300 === 0) {
                 houses.push(new House());
+                // Sort houses by proximity
+                houses.sort((a, b) => (a.y > b.y ? 1 : -1));
             }
 
-            // Sort houses by proximity
-            houses.sort((a, b) => (a.y > b.y ? 1 : -1));
             // Clear
             context.clearRect(0, 0, width, height);
 
