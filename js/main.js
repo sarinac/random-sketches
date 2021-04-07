@@ -4,6 +4,7 @@ import sketch_03 from "./sketches/sketch_03.js";
 import sketch_04 from "./sketches/sketch_04.js";
 import sketch_05 from "./sketches/sketch_05.js";
 import sketch_06 from "./sketches/sketch_06.js";
+import sketch_07 from "./sketches/sketch_07.js";
 
 const SKETCHES = {
     1: sketch_01,
@@ -12,6 +13,7 @@ const SKETCHES = {
     4: sketch_04,
     5: sketch_05,
     6: sketch_06,
+    7: sketch_07,
 };
 const NUMBER_SKETCHES = Object.keys(SKETCHES).length;
 

@@ -1,4 +1,4 @@
-const sketch_05 = {
+const sketch_06 = {
     title: "Voronoi",
 
     date: "March 31, 2021",
@@ -130,4 +130,4 @@ const sketch_05 = {
     },
 };
 
-export default sketch_05;
+export default sketch_06;
