@@ -58,8 +58,8 @@ const sketch_07 = {
         class House {
             constructor() {
                 // Position
-                this.x = 0.1 * width + Math.random() * 0.8 * width;
-                this.y = 0.2 * height + Math.random() * 0.8 * height;
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
 
                 // Colors
                 this.wallColor = COLORS.pale;

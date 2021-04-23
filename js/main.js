@@ -5,6 +5,8 @@ import sketch_04 from "./sketches/sketch_04.js";
 import sketch_05 from "./sketches/sketch_05.js";
 import sketch_06 from "./sketches/sketch_06.js";
 import sketch_07 from "./sketches/sketch_07.js";
+import sketch_08 from "./sketches/sketch_08.js";
+import sketch_09 from "./sketches/sketch_09.js";
 
 const SKETCHES = {
     1: sketch_01,
@@ -14,6 +16,8 @@ const SKETCHES = {
     5: sketch_05,
     6: sketch_06,
     7: sketch_07,
+    8: sketch_08,
+    9: sketch_09,
 };
 const NUMBER_SKETCHES = Object.keys(SKETCHES).length;
 
@@ -74,8 +78,8 @@ const draw = (canvasId, number) => {
             .attr("fill", sketch.colors[Object.keys(sketch.colors)[i]]);
     }
 
-    // Remove current canvases
-    d3.selectAll("canvas").remove();
+    // Remove all objects within canvas container
+    d3.select(`#${canvasId}`).selectAll("*").remove();
 
     // Draw
     sketch.draw(canvasId);
