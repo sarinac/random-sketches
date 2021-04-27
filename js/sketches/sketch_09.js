@@ -55,14 +55,77 @@ const sketch_09 = {
             .attr("type", "matrix")
             .attr("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 60 -8");
 
-        // --------------- Set Up Sketch --------------- //
-
-        // Array of colors
+        // --------------- Blob --------------- //
+        // Set constants
         const COLORS = Object.values(this.colors).splice(1);
         const MIN_BLOBS = 12,
             MAX_BLOBS = 30,
             MIN_RADIUS = 10,
             MAX_RADIUS = height / 4;
+
+        // Create blob objects
+        let colors = {};
+        for (let color of COLORS) {
+            let blobs = [];
+            for (
+                let i = 0;
+                i < MIN_BLOBS + (MAX_BLOBS - MIN_BLOBS) * Math.random();
+                i++
+            ) {
+                blobs.push({
+                    radius:
+                        MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * Math.random(),
+                    x: width * Math.random(),
+                    y: height * Math.random(),
+                    xDirection: Math.random() < 0.5 ? -1 : 1,
+                    yDirection: Math.random() < 0.5 ? -1 : 1,
+                    slope: 2 * Math.random(),
+                    speed: 5 * Math.random(),
+                });
+            }
+            colors[color] = blobs;
+        }
+
+        /**
+         * Updates positions for each blob in Array of blobs
+         * @param {Array} blobs
+         * @returns blobs
+         */
+        const update = (blobs) => {
+            // Helpful logic from this bl.ocks
+            // http://bl.ocks.org/HarryStevens/f59cf33cfe5ea05adec113c64daef59b
+            blobs.forEach((blob) => {
+                blob.xDirection =
+                    blob.x < blob.radius
+                        ? 1
+                        : blob.x > width - blob.radius
+                        ? -1
+                        : blob.xDirection;
+                blob.yDirection =
+                    blob.y < blob.radius
+                        ? 1
+                        : blob.y > height - blob.radius
+                        ? -1
+                        : blob.yDirection;
+
+                blob.x =
+                    blob.x +
+                    blob.speed *
+                        Math.sqrt(1 / (1 + Math.pow(blob.slope, 2))) *
+                        blob.xDirection;
+                blob.y =
+                    blob.y +
+                    blob.slope *
+                        blob.speed *
+                        Math.sqrt(1 / (1 + Math.pow(blob.slope, 2))) *
+                        blob.yDirection;
+
+                return blob;
+            });
+            return blobs;
+        };
+
+        // --------------- Set Up Sketch --------------- //
 
         // Background color
         contextBackground.beginPath();
@@ -70,27 +133,29 @@ const sketch_09 = {
         contextBackground.fillStyle = this.colors.blue1;
         contextBackground.fill();
 
-        // Draw blobs
-        context.globalCompositeOperation = "hue";
-        for (let color of COLORS) {
-            context.beginPath();
-            for (
-                let i = 0;
-                i < MIN_BLOBS + (MAX_BLOBS - MIN_BLOBS) * Math.random();
-                i++
-            ) {
-                let x = width * Math.random(),
-                    y = height * Math.random(),
-                    radius =
-                        MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * Math.random();
+        function draw() {
+            // Clear canvas
+            context.clearRect(0, 0, width, height);
 
-                context.moveTo(x, y);
-                context.arc(x, y, radius, 0, 2 * Math.PI);
+            // Draw blobs
+            context.globalCompositeOperation = "hue";
+            for (let color of Object.keys(colors)) {
+                let blobs = colors[color];
+                context.beginPath();
+                for (let blob of blobs) {
+                    context.moveTo(blob.x, blob.y);
+                    context.arc(blob.x, blob.y, blob.radius, 0, 2 * Math.PI);
+                }
+                context.filter = "url(#goo)";
+                context.fillStyle = color;
+                context.fill();
+                update(blobs);
             }
-            context.filter = "url(#goo)";
-            context.fillStyle = color;
-            context.fill();
+
+            // Loop forever
+            requestAnimationFrame(draw);
         }
+        requestAnimationFrame(draw);
     },
 };
 
