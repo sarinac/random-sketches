@@ -16,9 +16,9 @@ const sketch_10 = {
 
     inspiration: [
         "<h1>Inspiration</h1>",
-        "<p></p>",
+        "<p>I have been really into thick outlines and cartoon-looking art. I feel like 2D and retro are making a comeback...</p>",
         "<h1>What's Random?</h1>",
-        "<p>Size, color, and position.</p>",
+        "<p>Position and color of buildings, position of clouds.</p>",
     ],
 
     draw: function (canvasId) {
