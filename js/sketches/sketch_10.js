@@ -55,9 +55,10 @@ const sketch_10 = {
         const HEIGHT_SKY = 0.2 * height,
             HEIGHT_FLAT = 0.4 * height,
             MIN_BUILDING_HORIZONTAL = 10,
-            MAX_BUILDING_HORIZONTAL = 40,
+            MAX_BUILDING_HORIZONTAL = 60,
             MIN_BUILDING_VERTICAL = 5,
             MAX_BUILDING_VERTICAL = 15,
+            WALL_PADDING = 6,
             MIN_CLOUD_LENGTH = 30,
             MAX_CLOUD_LENGTH = 80,
             CLOUD_RADIUS = 10;
@@ -68,20 +69,27 @@ const sketch_10 = {
                 this.x = Math.random() * width;
                 this.y = HEIGHT_SKY + Math.random() * (height - HEIGHT_SKY); // Building is below skyline
 
-                // Color
-                this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-
-                // Roof and walls
+                // Useful points
                 this.LRhorizontal = 0;
                 this.LRvertical = 0;
                 this.TDhorizontal = 0;
                 this.TDvertical = 0;
+                this.side = 0;
+                this.outerX = 0;
+                this.outerY = 0;
+                this.midX = 0;
+                this.midY = 0;
+                this.makeRoofCoordinates();
+
+                // Color
+                this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+                // Roof and walls
                 this.roof = "";
                 this.leftWall = "";
                 this.rightWall = "";
-                this.makeRoofCoordinates();
                 this.generateRoof();
-                this.generalWall();
+                this.generateWall();
             }
 
             /**
@@ -110,6 +118,15 @@ const sketch_10 = {
                                   Math.random() * MAX_BUILDING_VERTICAL,
                               this.TDhorizontal
                           );
+                this.side = this.LRhorizontal > this.TDhorizontal ? 1 : -1;
+                this.outerX =
+                    this.side === 1 ? this.LRhorizontal : this.TDhorizontal;
+                this.outerY =
+                    this.side === 1 ? this.LRvertical : this.TDvertical;
+                this.midX =
+                    this.side *
+                    (this.side === 1 ? this.TDhorizontal : this.LRhorizontal);
+                this.midY = this.side === 1 ? this.TDvertical : this.LRvertical;
             }
 
             /**
@@ -128,37 +145,69 @@ const sketch_10 = {
             /**
              * Create path for drawing walls
              */
-            generalWall() {
-                let outerX = Math.max(this.LRhorizontal, this.TDhorizontal),
-                    outerY =
-                        Math.max(this.LRhorizontal, this.TDhorizontal) ===
-                        this.LRhorizontal
-                            ? this.LRvertical
-                            : this.TDvertical,
-                    side = this.LRhorizontal > this.TDhorizontal ? 1 : -1,
-                    midX =
-                        Math.min(this.LRhorizontal, this.TDhorizontal) * side,
-                    midY =
-                        side *
-                            Math.min(this.LRhorizontal, this.TDhorizontal) ===
-                        this.LRhorizontal
-                            ? this.LRvertical
-                            : this.TDvertical;
-
+            generateWall() {
                 this.leftWall = [
-                    `M${-outerX}, ${side * outerY}`,
-                    `L${midX}, ${side * midY}`,
-                    `L${midX}, ${height}`,
-                    `L${-outerX}, ${height}`,
+                    `M${-this.outerX}, ${this.side * this.outerY}`,
+                    `L${this.midX}, ${this.midY}`,
+                    `L${this.midX}, ${height}`,
+                    `L${-this.outerX}, ${height}`,
                     "Z",
                 ].join(" ");
                 this.rightWall = [
-                    `M${midX}, ${side * midY}`,
-                    `L${outerX}, ${side * -outerY}`,
-                    `L${outerX}, ${height}`,
-                    `L${midX}, ${height}`,
+                    `M${this.midX}, ${this.midY}`,
+                    `L${this.outerX}, ${-this.side * this.outerY}`,
+                    `L${this.outerX}, ${height}`,
+                    `L${this.midX}, ${height}`,
                     "Z",
                 ].join(" ");
+            }
+
+            /**
+             * Create path for windows
+             * @returns path
+             */
+            makeWindow(left) {
+                if (left) {
+                    if (this.midX + this.outerX < 2 * WALL_PADDING) {
+                        return "";
+                    } else {
+                        return [
+                            `M${-this.outerX + WALL_PADDING}, ${
+                                this.side * this.outerY
+                            }`,
+                            `L${this.midX - WALL_PADDING}, ${
+                                this.midY
+                            }`,
+                            `L${this.midX - WALL_PADDING}, ${
+                                this.midY + WALL_PADDING
+                            }`,
+                            `L${-this.outerX + WALL_PADDING}, ${
+                                this.side * this.outerY + WALL_PADDING
+                            }`,
+                            "Z",
+                        ].join(" ");
+                    }
+                } else {
+                    if (this.outerX - this.midX < 2 * WALL_PADDING) {
+                        return "";
+                    } else {
+                        return [
+                            `M${this.midX + WALL_PADDING}, ${
+                                this.midY
+                            }`,
+                            `L${this.outerX - WALL_PADDING}, ${
+                                -this.side * this.outerY
+                            }`,
+                            `L${this.outerX - WALL_PADDING}, ${
+                                -this.side * this.outerY + WALL_PADDING
+                            }`,
+                            `L${this.midX + WALL_PADDING}, ${
+                                this.midY + WALL_PADDING
+                            }`,
+                            "Z",
+                        ].join(" ");
+                    }
+                }
             }
 
             /**
@@ -184,6 +233,22 @@ const sketch_10 = {
                     context.lineJoin = "round";
                     context.stroke(path);
                 }
+
+                // Draw windows
+                context.globalAlpha = 0.15;
+                context.fillStyle = "black";
+                for (
+                    let y = 2 * WALL_PADDING;
+                    y < height;
+                    y = y + 2 * WALL_PADDING
+                ) {
+                    context.translate(0, y);
+                    context.fill(new Path2D(this.makeWindow(true)));
+                    context.fill(new Path2D(this.makeWindow(false)));
+                    context.translate(0, -y);
+                }
+                context.globalAlpha = 1;
+
                 context.translate(-this.x, -this.y);
             }
         }
